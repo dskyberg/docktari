@@ -1,0 +1,9 @@
+.drawer-nav-button {
+    border-color: transparent;
+    background-color: transparent;
+    &:disabled,
+    &[data-disabled] {
+        border-color: rgba(156, 84, 84, 1);
+        background-color: rgba(156, 84, 84, 1);
+    }
+}
