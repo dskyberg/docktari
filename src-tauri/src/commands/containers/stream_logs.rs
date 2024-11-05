@@ -9,6 +9,14 @@ use tauri::{Emitter, Listener, Manager};
 use super::container_exists;
 use crate::state::AppState;
 
+/// Stream container logs to the front end
+///
+/// This function continuously streams all logs from a container until the front end
+/// asks to stop.
+///
+/// To do this, a thread safe boolean `cancel_toggle` flag is created, along with
+/// a listener.  When the front end emits `cancel_logs_<container id>` streaming stops.
+///
 #[tauri::command]
 pub async fn stream_container_logs(
     state: tauri::State<'_, AppState>,
