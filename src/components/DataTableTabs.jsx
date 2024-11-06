@@ -39,7 +39,7 @@ export default function DataTableTabs({ id, inspect, open }) {
         <Tabs.Tab value="logs">Logs</Tabs.Tab>
       </Tabs.List>
       <Tabs.Panel value="inspect">
-        <InspectViewer id={id} />
+        <InspectViewer id={id} inspect={inspect} />
       </Tabs.Panel>
       <Tabs.Panel value="logs">
         <LogViewer id={id} />

@@ -41,16 +41,18 @@ const schema = {
 
 export default function Containers() {
   const [data, setData] = useState([]);
+  const [filters, setFilters] = useState({ status: ["running"] });
 
   useEffect(() => {
-    list_data();
-  }, []);
+    const list_data = async () => {
+      let options = { listOptions: { all: true, filters } };
+      invoke("list_containers").then((container_data) => {
+        setData(container_data);
+      });
+    };
 
-  const list_data = async () => {
-    invoke("list_containers").then((container_data) => {
-      setData(container_data);
-    });
-  };
+    list_data();
+  }, [filters]);
 
   const handleRefresh = async () => {
     list_data();

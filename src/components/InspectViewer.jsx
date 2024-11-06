@@ -4,7 +4,7 @@ import { notifications } from "@mantine/notifications";
 import { Loader, ScrollArea, Code, Tabs } from "@mantine/core";
 import LogViewer from "./LogViewer";
 
-export default function InspectViewer({ id }) {
+export default function InspectViewer({ id, inspect }) {
   const [data, setData] = useState();
   const [error, setError] = useState();
   const codeRef = useRef(null);

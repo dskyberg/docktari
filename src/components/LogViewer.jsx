@@ -84,7 +84,9 @@ const LogViewer = ({ id }) => {
 
   return (
     <Stack>
-      <Button onClick={handleCancelLogs}>Cancel Log Streaming</Button>
+      <Button w={300} onClick={handleCancelLogs}>
+        Cancel Log Streaming
+      </Button>
       <div id="xterm" ref={terminalRef} style={{ margin: "0.5rem", width: "100%", height: "100%" }} />;
     </Stack>
   );
