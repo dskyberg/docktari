@@ -1,5 +1,5 @@
 use super::container_exists;
-use crate::state::AppState;
+use crate::AppState;
 
 #[tauri::command]
 pub async fn pause_container(state: tauri::State<'_, AppState>, id: String) -> Result<(), String> {

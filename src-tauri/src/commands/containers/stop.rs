@@ -1,5 +1,5 @@
 use super::container_exists;
-use crate::state::AppState;
+use crate::AppState;
 use bollard::container::StopContainerOptions;
 
 #[tauri::command]

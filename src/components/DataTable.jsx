@@ -16,7 +16,7 @@ import {
   Input,
 } from "@mantine/core";
 
-import Inspect from "./Inspect";
+import DataTableTabs from "./DataTableTabs";
 
 import {
   IconCaretDownFilled,
@@ -67,7 +67,7 @@ const FilterMenu = () => {
           Sort Ascending
         </Menu.Item>
         <Menu.Item leftSection={<IconSortDescending2Filled style={{ width: rem(14), height: rem(14) }} />}>
-          Sort Ascending
+          Sort Descending
         </Menu.Item>
         <Menu.Divider />
         <Menu.Item
@@ -90,43 +90,45 @@ const FilterMenu = () => {
 };
 FilterMenu.displayName = "FilterMenu";
 
+/**
+    Returns 2 DataTableRow instances, if the element has an inspect.
+*/
 const DataTableRow = ({ schema, row, selected, onChange, inspect }) => {
   const [collapsed, setCollapsed] = useState(true);
   const collapsableRowStyle = { borderBottomWidth: collapsed ? 0 : 1 };
 
-  let rows = [
-    <Table.Tr key="data-table-row-1" bg={selected ? "var(--mantine-color-blue-light)" : undefined}>
-      <Table.Td>
-        <Checkbox aria-label="Select row" checked={selected} onChange={onChange} />
-      </Table.Td>
-      {schema.fields.map((field, index) => (
-        <Table.Td key={`field-${index}`}>{field.displayFn ? field.displayFn(row) : row[field.id]}</Table.Td>
-      ))}
-      {schema?.inspect !== undefined && (
+  return (
+    <>
+      <Table.Tr bg={selected ? "var(--mantine-color-blue-light)" : undefined}>
         <Table.Td>
-          <Button p={0} w={14} h={14} bg="transparent" onClick={() => setCollapsed(!collapsed)}>
-            {collapsed ? (
-              <IconCaretDownFilled size={14} color="black" />
-            ) : (
-              <IconCaretUpFilled size={14} color="black" />
-            )}
-          </Button>
+          <Checkbox aria-label="Select row" checked={selected} onChange={onChange} />
         </Table.Td>
+        {schema.fields.map((field, index) => (
+          <Table.Td key={`field-${index}`}>{field.displayFn ? field.displayFn(row) : row[field.id]}</Table.Td>
+        ))}
+        {schema?.inspect !== undefined && (
+          <Table.Td>
+            <Button p={0} w={14} h={14} bg="transparent" onClick={() => setCollapsed(!collapsed)}>
+              {collapsed ? (
+                <IconCaretDownFilled size={14} color="black" />
+              ) : (
+                <IconCaretUpFilled size={14} color="black" />
+              )}
+            </Button>
+          </Table.Td>
+        )}
+      </Table.Tr>
+      {schema?.inspect !== undefined && (
+        <Table.Tr style={collapsableRowStyle}>
+          <Table.Td colSpan={schema.fields.length + 1}>
+            <Collapse in={!collapsed}>
+              <DataTableTabs id={row[schema.idField]} inspect={schema.inspect} open={!collapsed} />
+            </Collapse>
+          </Table.Td>
+        </Table.Tr>
       )}
-    </Table.Tr>,
-  ];
-  schema?.inspect !== undefined &&
-    rows.push(
-      <Table.Tr key="data-table-row-2" style={collapsableRowStyle}>
-        <Table.Td colSpan={schema.fields.length + 1}>
-          <Collapse in={!collapsed}>
-            <Inspect id={row[schema.idField]} inspect={schema.inspect} open={!collapsed} />
-          </Collapse>
-        </Table.Td>
-      </Table.Tr>,
-    );
-
-  return rows;
+    </>
+  );
 };
 
 export default function DataTable({ title, schema, data, cmds, inspect }) {
@@ -144,7 +146,7 @@ export default function DataTable({ title, schema, data, cmds, inspect }) {
 
   const rows = data.map((row, index) => (
     <DataTableRow
-      key={`${row[schema.idField]}-${index}`}
+      key={`data-table-row-${index}`}
       schema={schema}
       row={row}
       selected={selectedRows.includes(row[schema.idField])}
@@ -213,7 +215,7 @@ export default function DataTable({ title, schema, data, cmds, inspect }) {
                 <Table.Th></Table.Th>
               </Table.Tr>
             </Table.Thead>
-            <Table.Tbody>{rows}</Table.Tbody>
+            <Table.Tbody>{rows.flat()}</Table.Tbody>
           </Table>
         </Table.ScrollContainer>
       </ScrollArea>

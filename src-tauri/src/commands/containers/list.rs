@@ -2,7 +2,7 @@ use bollard::{container::ListContainersOptions, secret::ContainerSummary, Docker
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 
-use crate::state::AppState;
+use crate::AppState;
 
 pub async fn fetch_list_containers(
     docker: &Docker,

@@ -1,7 +1,7 @@
 use bollard::{models::Network, network::InspectNetworkOptions};
 use std::default::Default;
 
-use crate::state::AppState;
+use crate::AppState;
 
 #[tauri::command]
 pub async fn inspect_network(

@@ -4,8 +4,9 @@ import { notifications } from "@mantine/notifications";
 import { Loader, ScrollArea, Code, Tabs } from "@mantine/core";
 import { useDocumentVisibility } from "@mantine/hooks";
 import LogViewer from "./LogViewer";
+import InspectViewer from "./InspectViewer";
 
-export default function Inspect({ id, inspect, open }) {
+export default function DataTableTabs({ id, inspect, open }) {
   const [data, setData] = useState();
   const [error, setError] = useState();
   const codeRef = useRef(null);
@@ -38,11 +39,7 @@ export default function Inspect({ id, inspect, open }) {
         <Tabs.Tab value="logs">Logs</Tabs.Tab>
       </Tabs.List>
       <Tabs.Panel value="inspect">
-        <ScrollArea h={300} w={800}>
-          <Code ref={codeRef} block>
-            {data}
-          </Code>
-        </ScrollArea>
+        <InspectViewer id={id} />
       </Tabs.Panel>
       <Tabs.Panel value="logs">
         <LogViewer id={id} />

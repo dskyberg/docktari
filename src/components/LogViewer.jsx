@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from "react";
-import { listen } from "@tauri-apps/api/event";
+import { listen, emit } from "@tauri-apps/api/event";
 import { invoke } from "@tauri-apps/api/core";
 
 import { Terminal as XTerm } from "@xterm/xterm";
@@ -7,6 +7,7 @@ import { FitAddon } from "@xterm/addon-fit";
 import { WebLinksAddon } from "@xterm/addon-web-links";
 
 import { notifications } from "@mantine/notifications";
+import { Button, Stack } from "@mantine/core";
 
 export const DEFAULT_OPTIONS = {
   scrollback: 5000, // Allow 5000 lines of scrollback
@@ -50,7 +51,7 @@ const LogViewer = ({ id }) => {
       fitAddon.fit();
       terminal.current.clear();
 
-      const unlistenLogs = listen("log_chunk", (event) => {
+      const unlistenLogs = listen("log_chunk_" + id, (event) => {
         terminal.current.writeln(event.payload);
       });
 
@@ -76,7 +77,17 @@ const LogViewer = ({ id }) => {
     }
   }, []);
 
-  return <div id="xterm" ref={terminalRef} style={{ margin: "0.5rem", width: "100%", height: "100%" }} />;
+  const handleCancelLogs = () => {
+    console.log("emitting:", "cancel_logs_" + id);
+    emit("cancel_logs_" + id);
+  };
+
+  return (
+    <Stack>
+      <Button onClick={handleCancelLogs}>Cancel Log Streaming</Button>
+      <div id="xterm" ref={terminalRef} style={{ margin: "0.5rem", width: "100%", height: "100%" }} />;
+    </Stack>
+  );
 };
 
 export default LogViewer;

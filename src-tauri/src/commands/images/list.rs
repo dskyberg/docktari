@@ -1,7 +1,7 @@
 use bollard::{image::ListImagesOptions, secret::ImageSummary};
 use std::collections::HashMap;
 
-use crate::state::AppState;
+use crate::AppState;
 
 #[tauri::command]
 pub async fn list_images(state: tauri::State<'_, AppState>) -> Result<Vec<ImageSummary>, String> {

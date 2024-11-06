@@ -1,2 +1,2 @@
-pub use inflate::*;
-pub mod inflate;
+pub use decompress::*;
+pub mod decompress;

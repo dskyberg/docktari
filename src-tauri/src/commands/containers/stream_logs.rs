@@ -7,7 +7,7 @@ use std::sync::{
 use tauri::{Emitter, Listener, Manager};
 
 use super::container_exists;
-use crate::state::AppState;
+use crate::AppState;
 
 /// Stream container logs to the front end
 ///
@@ -33,18 +33,17 @@ pub async fn stream_container_logs(
     };
 
     // Set up a cancel toggle
-    let cancel_toggle = Arc::new(AtomicBool::new(true));
+    let cancel_toggle = Arc::new(AtomicBool::new(false));
 
     let mut stream = state.docker.logs::<String>(&id, Some(options));
 
-    let event_name = format!("cancel_logs_{}", &id);
-
+    let cancel_event_name = format!("cancel_logs_{}", &id);
+    let chunk_event_name = format!("log_chunk_{}", &id);
     // Local data to move into listener
     let main_window = app.get_webview_window("main").unwrap();
     let val = Arc::clone(&cancel_toggle);
 
-    main_window.listen(event_name, move |event| {
-        eprint!("Event received: cancel_logs: {:?}", &event);
+    main_window.listen(cancel_event_name, move |_| {
         val.store(false, Ordering::Relaxed);
     });
 
@@ -55,7 +54,7 @@ pub async fn stream_container_logs(
                 break;
             }
             let log = msg.unwrap().to_string();
-            app.emit("log_chunk", log)
+            app.emit(&chunk_event_name, log)
                 .map_err(|e| e.to_string())
                 .expect("this sucks");
         }

@@ -1,6 +1,6 @@
 use bollard::volume::RemoveVolumeOptions;
 
-use crate::state::AppState;
+use crate::AppState;
 
 #[tauri::command]
 pub async fn remove_volume(state: tauri::State<'_, AppState>, id: String) -> Result<(), String> {

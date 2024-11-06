@@ -1,7 +1,7 @@
 use bollard::{secret::VolumeListResponse, volume::ListVolumesOptions};
 use std::collections::HashMap;
 
-use crate::state::AppState;
+use crate::AppState;
 
 #[tauri::command]
 pub async fn list_volumes(state: tauri::State<'_, AppState>) -> Result<VolumeListResponse, String> {

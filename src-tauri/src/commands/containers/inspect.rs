@@ -1,7 +1,7 @@
 use bollard::{container::InspectContainerOptions, secret::ContainerInspectResponse};
 
 use super::container_exists;
-use crate::state::AppState;
+use crate::AppState;
 
 #[tauri::command]
 pub async fn inspect_container(

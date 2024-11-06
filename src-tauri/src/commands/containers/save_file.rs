@@ -7,8 +7,7 @@ use std::io::{Read, Write};
 use tar::Archive;
 
 use super::container_exists;
-use crate::state::AppState;
-use std::io::Cursor;
+use crate::{util::decompress, AppState};
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
 pub struct SaveFileOptions {
@@ -45,11 +44,9 @@ pub async fn container_save_file(
         buf
     });
 
-    let cursor = Cursor::new(bytes);
-
     // Docker returns the file as a compressed tar file.  Determine the type of compression,
     // and set up an archive to inflate the file.
-    let mut archive = Archive::new(cursor);
+    let mut archive = Archive::new(decompress(&bytes)?);
     let mut inflated = Vec::new();
     let mut file = archive
         .entries()

@@ -1,6 +1,6 @@
 use bollard::secret::VolumeListResponse;
 
-use crate::state::AppState;
+use crate::AppState;
 
 #[tauri::command]
 pub async fn prune_volumes(

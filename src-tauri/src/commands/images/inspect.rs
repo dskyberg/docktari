@@ -1,6 +1,6 @@
 use bollard::models::ImageInspect;
 
-use crate::state::AppState;
+use crate::AppState;
 
 #[tauri::command]
 pub async fn inspect_image(

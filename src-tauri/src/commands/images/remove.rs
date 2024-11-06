@@ -1,6 +1,6 @@
 use bollard::{image::RemoveImageOptions, secret::ImageDeleteResponseItem};
 
-use crate::state::AppState;
+use crate::AppState;
 
 #[tauri::command]
 pub async fn remove_image(

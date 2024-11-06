@@ -1,7 +1,7 @@
 use bollard::container::RemoveContainerOptions;
 
 use super::container_exists;
-use crate::state::AppState;
+use crate::AppState;
 
 #[tauri::command]
 pub async fn remove_container(state: tauri::State<'_, AppState>, id: String) -> Result<(), String> {

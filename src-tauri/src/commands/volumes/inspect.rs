@@ -1,6 +1,6 @@
 use bollard::models::Volume;
 
-use crate::state::AppState;
+use crate::AppState;
 
 #[tauri::command]
 pub async fn inspect_volume(

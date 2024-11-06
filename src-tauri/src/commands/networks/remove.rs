@@ -1,4 +1,4 @@
-use crate::state::AppState;
+use crate::AppState;
 
 #[tauri::command]
 pub async fn remove_network(state: tauri::State<'_, AppState>, id: String) -> Result<(), String> {

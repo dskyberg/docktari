@@ -9,14 +9,12 @@ use commands::{
     system::docker_version,
     volumes::{inspect_volume, list_volumes, prune_volumes, remove_volume},
 };
-
-use state::AppState;
-
 use tauri_plugin_store::StoreExt;
 
-mod commands;
+use app_state::AppState;
 
-mod state;
+mod app_state;
+mod commands;
 mod util;
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]

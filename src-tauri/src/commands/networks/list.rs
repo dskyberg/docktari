@@ -1,7 +1,7 @@
 use bollard::{models::Network, network::ListNetworksOptions};
 use std::default::Default;
 
-use crate::state::AppState;
+use crate::AppState;
 
 #[tauri::command]
 pub async fn list_networks(state: tauri::State<'_, AppState>) -> Result<Vec<Network>, String> {
